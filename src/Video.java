@@ -2,6 +2,8 @@ public class Video {
   public int id;
   public int size;
 
+  public int cached = 0;
+
   public Video(int id, int size) {
     this.id = id;
     this.size = size;

@@ -7,14 +7,14 @@ public class Main {
 //  private final static String inputFile = "input/me_at_the_zoo.in";
 //  private final static String outputFile = "results/me_at_the_zoo.txt";
 
-//  private final static String inputFile = "input/kittens.in";
-//  private final static String outputFile = "results/kittens.txt";
+  private final static String inputFile = "input/kittens.in";
+  private final static String outputFile = "results/kittens.txt";
 
 //  private final static String inputFile = "input/trending_today.in";
 //  private final static String outputFile = "results/trending_today.txt";
-
-  private final static String inputFile = "input/videos_worth_spreading.in";
-  private final static String outputFile = "results/videos_worth_spreading.txt";
+//
+//  private final static String inputFile = "input/videos_worth_spreading.in";
+//  private final static String outputFile = "results/videos_worth_spreading.txt";
 
   private List<Requests> requests;
   private List<Video> videos;
@@ -51,7 +51,7 @@ public class Main {
   }
 
   private void printResult() throws FileNotFoundException, UnsupportedEncodingException {
-    PrintWriter pw = new PrintWriter(outputFile,"UTF-8");
+    PrintWriter pw = new PrintWriter(new FileOutputStream(new File(outputFile)),true);
     pw.println(matrizFinal.size());
     for (Cache c : caches) {
       if(matrizFinal.containsKey(c)) {
@@ -71,11 +71,25 @@ public class Main {
     for(Cache cache: this.caches)
       matriz.put(cache, new ArrayList<>());
 
-    for(Cache cache: this.caches){
-      for(Video video: this.videos){
-        float pontos = getPoints(cache,video);
-        pontos *= (1 - (float)video.size/cache.size);
-        matriz.get(cache).add(new PairVideoPoints(video,pontos));
+//    for(Cache cache: this.caches){
+//      for(Video video: this.videos){
+//        if(video.cached < 1) {
+//          float pontos = getPoints(cache, video);
+//          pontos *= (1 - (float) video.size / cache.size);
+//          matriz.get(cache).add(new PairVideoPoints(video, pontos));
+//          video.cached++;
+//        }
+//      }
+//    }
+
+    Random r = new Random();
+    for(Video video: this.videos){
+      for(Cache cache: this.caches){
+          float pontos = getPoints(cache, video);
+          pontos *= (1 - (float) video.size / cache.size);
+          pontos /= (video.cached++) * r.nextInt(5)/5;
+          matriz.get(cache).add(new PairVideoPoints(video, pontos));
+
       }
     }
 
@@ -116,7 +130,7 @@ public class Main {
     if(nTotal == 0)
       return 0;
 
-    return (float)latTotal/nTotal;
+    return (float)latTotal;//nTotal;
   }
 
   private void readInput() {
