@@ -30,8 +30,14 @@ public class PairVideoPoints implements Comparable<PairVideoPoints>{
       return -1;
     else if(this.points < pairVideoPoints.points)
       return 1;
-    else
-      return 0;
+    else{
+      if(this.video.id > pairVideoPoints.video.id)
+        return 1;
+      else if (this.video.id < pairVideoPoints.video.id)
+        return -1;
+      else
+        return 0;
+    }
   }
 }
 
